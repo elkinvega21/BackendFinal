@@ -10,7 +10,7 @@ class GoogleAdsConnector:
     def __init__(self):
         self.client = None
         self._initialize_client()
-    
+
     def _initialize_client(self):
         """Inicializa el cliente de Google Ads"""
         try:
@@ -21,29 +21,29 @@ class GoogleAdsConnector:
             ]):
                 logger.warning("Credenciales de Google Ads no configuradas completamente")
                 return
-            
+
             self.client = GoogleAdsClient.load_from_dict({
                 "developer_token": settings.GOOGLE_ADS_DEVELOPER_TOKEN,
                 "client_id": settings.GOOGLE_ADS_CLIENT_ID,
                 "client_secret": settings.GOOGLE_ADS_CLIENT_SECRET,
                 "use_proto_plus": True
             })
-            
+
         except Exception as e:
             logger.error(f"Error inicializando cliente Google Ads: {str(e)}")
-    
+
     async def get_campaign_data(self, customer_id: str, days_back: int = 30) -> Dict[str, Any]:
         """Obtiene datos de campañas de Google Ads"""
         if not self.client:
             raise APIConnectionError("Cliente de Google Ads no inicializado")
-        
+
         try:
             ga_service = self.client.get_service("GoogleAdsService")
-            
+
             # Fechas
             end_date = datetime.now()
             start_date = end_date - timedelta(days=days_back)
-            
+
             query = f"""
             SELECT
                 campaign.id,
@@ -56,13 +56,13 @@ class GoogleAdsConnector:
                 metrics.conversion_value_micros,
                 segments.date
             FROM campaign
-            WHERE segments.date BETWEEN '{start_date.strftime('%Y-%m-%d')}' 
-                AND '{end_date.strftime('%Y-%m-%d')}'
+            WHERE segments.date BETWEEN '{start_date.strftime('%Y-%m-%d')}'
+                 AND '{end_date.strftime('%Y-%m-%d')}'
             ORDER BY segments.date DESC
             """
-            
+
             response = ga_service.search_stream(customer_id=customer_id, query=query)
-            
+
             campaigns_data = []
             for batch in response:
                 for row in batch.results:
@@ -77,7 +77,7 @@ class GoogleAdsConnector:
                         "conversions": row.metrics.conversions,
                         "conversion_value": row.metrics.conversion_value_micros / 1_000_000
                     })
-            
+
             return {
                 "data_type": "google_ads_campaigns",
                 "records": campaigns_data,
@@ -88,22 +88,22 @@ class GoogleAdsConnector:
                 },
                 "customer_id": customer_id
             }
-            
+
         except GoogleAdsException as ex:
             logger.error(f"Error en Google Ads API: {ex}")
             raise APIConnectionError(f"Error conectando con Google Ads: {str(ex)}")
         except Exception as e:
             logger.error(f"Error obteniendo datos de Google Ads: {str(e)}")
             raise APIConnectionError(f"Error obteniendo datos: {str(e)}")
-    
+
     async def get_customer_accounts(self, manager_customer_id: str) -> List[Dict[str, Any]]:
         """Obtiene las cuentas de cliente disponibles"""
         if not self.client:
             raise APIConnectionError("Cliente de Google Ads no inicializado")
-        
+
         try:
             ga_service = self.client.get_service("GoogleAdsService")
-            
+
             query = """
             SELECT
                 customer_client.client_customer,
@@ -116,9 +116,9 @@ class GoogleAdsConnector:
             FROM customer_client
             WHERE customer_client.level <= 1
             """
-            
+
             response = ga_service.search(customer_id=manager_customer_id, query=query)
-            
+
             accounts = []
             for row in response:
                 accounts.append({
@@ -128,9 +128,9 @@ class GoogleAdsConnector:
                     "timezone": row.customer_client.time_zone,
                     "is_manager": row.customer_client.manager
                 })
-            
+
             return accounts
-            
+
         except Exception as e:
             logger.error(f"Error obteniendo cuentas de cliente: {str(e)}")
             raise APIConnectionError(f"Error obteniendo cuentas: {str(e)}")
