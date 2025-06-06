@@ -1,4 +1,11 @@
-from sqlalchemy import Column, Integer, String, Text, DateTime, ForeignKey, JSON, Float
+# app/models/data.py
+
+# --- INICIO DE LA CORRECCIÓN ---
+# Asegúrate de que 'Boolean' esté incluido en esta línea de importación.
+# También he añadido 'Boolean' y me he asegurado de que todos los tipos que usas estén presentes.
+from sqlalchemy import Column, Integer, String, Text, DateTime, ForeignKey, JSON, Float, Boolean # <-- ¡Añade 'Boolean'!
+# --- FIN DE LA CORRECCIÓN ---
+
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from app.config.database import Base
@@ -10,7 +17,7 @@ class DataSource(Base):
     name = Column(String, nullable=False)
     source_type = Column(String, nullable=False)  # csv, excel, google_ads, pipedrive, zoho
     connection_config = Column(JSON)  # API keys, endpoints, etc
-    is_active = Column(Boolean, default=True)
+    is_active = Column(Boolean, default=True) # <-- Aquí se usa Boolean
     last_sync = Column(DateTime(timezone=True))
     company_id = Column(Integer, ForeignKey("companies.id"))
     created_by_id = Column(Integer, ForeignKey("users.id"))

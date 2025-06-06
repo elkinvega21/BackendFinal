@@ -5,11 +5,12 @@ from datetime import datetime, timedelta
 from typing import Optional
 from jose import jwt, JWTError
 from loguru import logger
+import unicodedata
 
 from app.config.settings import settings
 from app.models.user import User
 from app.schemas.user import UserCreate, UserResponse, TokenData
-from app.utils.exceptions import CustomException # We need a custom exception for auth errors
+from app.utils.exceptions import CustomException
 
 # For password hashing
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -18,41 +19,104 @@ class AuthService:
     def __init__(self, db: Session):
         self.db = db
 
+    def _sanitize_string(self, text: str) -> str:
+        """
+        Sanitiza strings para asegurar compatibilidad UTF-8
+        """
+        if not text:
+            return text
+        
+        try:
+            # Normalizar caracteres Unicode
+            normalized = unicodedata.normalize('NFKC', text)
+            # Codificar y decodificar para limpiar caracteres problemáticos
+            clean_text = normalized.encode('utf-8', errors='replace').decode('utf-8')
+            return clean_text
+        except Exception as e:
+            logger.warning(f"Error sanitizando string: {e}")
+            # Fallback: reemplazar caracteres problemáticos
+            return text.encode('utf-8', errors='replace').decode('utf-8')
+
     def get_user_by_email(self, email: str) -> Optional[User]:
-        return self.db.query(User).filter(User.email == email).first()
+        # Sanitizar email antes de la consulta
+        clean_email = self._sanitize_string(email.lower().strip())
+        return self.db.query(User).filter(User.email == clean_email).first()
 
     def create_user(self, user_in: UserCreate) -> User:
+        # Sanitizar datos de entrada
+        clean_email = self._sanitize_string(user_in.email.lower().strip())
+        clean_full_name = self._sanitize_string(user_in.full_name.strip())
+        clean_password = self._sanitize_string(user_in.password)
+        
+        logger.info(f"Creando usuario con email sanitizado: {clean_email}")
+        logger.info(f"Datos sanitizados - Email: {repr(clean_email)}")
+        logger.info(f"Datos sanitizados - Nombre: {repr(clean_full_name)}")
+        
         # Check if user already exists
-        if self.get_user_by_email(user_in.email):
+        if self.get_user_by_email(clean_email):
             raise CustomException(
                 status_code=400,
                 message="El correo electrónico ya está registrado.",
                 details={"field": "email"}
             )
 
-        hashed_password = pwd_context.hash(user_in.password)
-        db_user = User(
-            email=user_in.email,
-            full_name=user_in.full_name,
-            hashed_password=hashed_password,
-            company_id=user_in.company_id # Can be None if not provided
-        )
-        self.db.add(db_user)
-        self.db.commit()
-        self.db.refresh(db_user)
-        return db_user
+        try:
+            # Hashear la contraseña (passlib maneja UTF-8 internamente)
+            hashed_password = pwd_context.hash(clean_password)
+            logger.info("Contraseña hasheada exitosamente")
+        except Exception as e:
+            logger.error(f"Error al hashear contraseña: {type(e).__name__} - {e}")
+            raise CustomException(
+                status_code=500,
+                message="Error interno procesando la contraseña.",
+                details={"error": str(e)}
+            )
+
+        try:
+            db_user = User(
+                email=clean_email,
+                full_name=clean_full_name,
+                hashed_password=hashed_password,
+                company_id=user_in.company_id
+            )
+            self.db.add(db_user)
+            self.db.commit()
+            self.db.refresh(db_user)
+            logger.info(f"Usuario {clean_email} creado exitosamente")
+            return db_user
+        except Exception as e:
+            self.db.rollback()
+            logger.error(f"Error al guardar usuario en DB: {type(e).__name__} - {e}")
+            raise CustomException(
+                status_code=500,
+                message="Error interno al crear el usuario.",
+                details={"error": str(e)}
+            )
 
     def verify_password(self, plain_password: str, hashed_password: str) -> bool:
-        return pwd_context.verify(plain_password, hashed_password)
+        try:
+            clean_password = self._sanitize_string(plain_password)
+            return pwd_context.verify(clean_password, hashed_password)
+        except Exception as e:
+            logger.error(f"Error verificando contraseña: {type(e).__name__} - {e}")
+            return False
 
     def authenticate_user(self, email: str, password: str) -> Optional[User]:
-        user = self.get_user_by_email(email)
+        clean_email = self._sanitize_string(email.lower().strip())
+        user = self.get_user_by_email(clean_email)
+        
         if not user or not self.verify_password(password, user.hashed_password):
-            return None # Authentication failed
+            return None
+        
         if not user.is_active:
             raise CustomException(status_code=403, message="Usuario inactivo.")
+        
         if not user.is_verified:
-            raise CustomException(status_code=403, message="Usuario no verificado. Por favor, revisa tu correo electrónico.")
+            raise CustomException(
+                status_code=403, 
+                message="Usuario no verificado. Por favor, revisa tu correo electrónico."
+            )
+        
         return user
 
     def create_access_token(self, data: dict, expires_delta: Optional[timedelta] = None) -> str:
@@ -73,7 +137,7 @@ class AuthService:
         )
         try:
             payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
-            email: str = payload.get("email")
+            email: str = payload.get("sub")  # Cambié de "email" a "sub" según el token
             user_id: int = payload.get("user_id")
             if email is None or user_id is None:
                 raise credentials_exception
@@ -88,16 +152,11 @@ class AuthService:
             raise CustomException(status_code=403, message="Usuario inactivo.")
         return user
 
-    # Placeholder for future email verification logic
     async def send_verification_email(self, user: User):
         logger.info(f"Sending verification email to {user.email}")
-        # Here you would integrate with an email service
-        # e.g., using settings.SMTP_HOST, SMTP_PORT, etc.
-        # For now, it's just a log message.
         pass
 
     async def generate_and_send_reset_password_token(self, email: str):
-        logger.info(f"Generating and sending password reset token for {email}")
-        # Logic to generate a unique token, store it in DB (e.g., in a password_reset_tokens table)
-        # and send an email with a link containing this token.
+        clean_email = self._sanitize_string(email.lower().strip())
+        logger.info(f"Generating and sending password reset token for {clean_email}")
         pass

@@ -3,8 +3,10 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from loguru import logger
+import traceback
 
 from app.api.v1.deps import get_db, get_auth_service
+from app.models.user import User
 from app.schemas.user import UserCreate, UserResponse, Token
 from app.services.auth_service import AuthService
 from app.utils.exceptions import CustomException
@@ -20,6 +22,7 @@ async def register_user(
     Registra un nuevo usuario en la plataforma.
     """
     logger.info(f"Intento de registro para: {user_in.email}")
+    
     try:
         user = auth_service.create_user(user_in)
         logger.info(f"Usuario {user.email} registrado exitosamente.")
@@ -28,7 +31,8 @@ async def register_user(
         logger.warning(f"Fallo de registro para {user_in.email}: {e.message}")
         raise HTTPException(status_code=e.status_code, detail=e.message)
     except Exception as e:
-        logger.error(f"Error inesperado durante el registro: {e}")
+        logger.error(f"Error inesperado durante el registro: {str(e)}")
+        logger.error(f"Traceback completo: {traceback.format_exc()}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Error interno del servidor al registrar el usuario."

@@ -1,0 +1,115 @@
+2025-06-06 16:07:35.494 | INFO     | app.api.v1.endpoints.auth:register_user:23 - Intento de registro para: ELKINDARIO2121@gmail.com
+2025-06-06 16:07:35.538 | ERROR    | app.api.v1.endpoints.auth:register_user:32 - Error inesperado durante el registro: When initializing mapper Mapper[User(users)], expression 'Company' failed to locate a name ('Company'). If this is a class name, consider adding this relationship() to the <class 'app.models.user.User'> class after both dependent classes have been defined.
+2025-06-06 16:08:00.438 | INFO     | app.api.v1.endpoints.auth:register_user:23 - Intento de registro para: ELKINDARIO2121@gmail.com
+2025-06-06 16:08:00.505 | ERROR    | app.api.v1.endpoints.auth:register_user:32 - Error inesperado durante el registro: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[User(users)]'. Original exception was: When initializing mapper Mapper[User(users)], expression 'Company' failed to locate a name ('Company'). If this is a class name, consider adding this relationship() to the <class 'app.models.user.User'> class after both dependent classes have been defined.
+2025-06-06 16:12:03.584 | INFO     | app.api.v1.endpoints.auth:register_user:23 - Intento de registro para: ELKINDARIO2121@gmail.com
+2025-06-06 16:12:03.592 | ERROR    | app.api.v1.endpoints.auth:register_user:32 - Error inesperado durante el registro: When initializing mapper Mapper[Company(companies)], expression 'DataSource' failed to locate a name ('DataSource'). If this is a class name, consider adding this relationship() to the <class 'app.models.company.Company'> class after both dependent classes have been defined.
+2025-06-06 16:12:12.750 | INFO     | app.api.v1.endpoints.auth:register_user:23 - Intento de registro para: ELKINDARIO2121@gmail.com
+2025-06-06 16:12:12.816 | ERROR    | app.api.v1.endpoints.auth:register_user:32 - Error inesperado durante el registro: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[Company(companies)]'. Original exception was: When initializing mapper Mapper[Company(companies)], expression 'DataSource' failed to locate a name ('DataSource'). If this is a class name, consider adding this relationship() to the <class 'app.models.company.Company'> class after both dependent classes have been defined.
+2025-06-06 16:17:35.626 | INFO     | app.api.v1.endpoints.auth:register_user:23 - Intento de registro para: ELKINDARIO2121@gmail.com
+2025-06-06 16:17:35.662 | ERROR    | app.api.v1.endpoints.auth:register_user:32 - Error inesperado durante el registro: When initializing mapper Mapper[Company(companies)], expression 'AIModel' failed to locate a name ('AIModel'). If this is a class name, consider adding this relationship() to the <class 'app.models.company.Company'> class after both dependent classes have been defined.
+2025-06-06 16:20:45.696 | INFO     | app.api.v1.endpoints.auth:register_user:23 - Intento de registro para: ELKINDARIO2121@gmail.com
+2025-06-06 16:20:45.729 | ERROR    | app.api.v1.endpoints.auth:register_user:32 - Error inesperado durante el registro: When initializing mapper Mapper[Company(companies)], expression 'AIModel' failed to locate a name ('AIModel'). If this is a class name, consider adding this relationship() to the <class 'app.models.company.Company'> class after both dependent classes have been defined.
+2025-06-06 16:21:50.185 | INFO     | app.api.v1.endpoints.auth:register_user:23 - Intento de registro para: ELKINDARIO2121@gmail.com
+2025-06-06 16:21:50.361 | ERROR    | app.api.v1.endpoints.auth:register_user:32 - Error inesperado durante el registro: 'utf-8' codec can't decode byte 0xab in position 96: invalid start byte
+2025-06-06 16:24:29.367 | INFO     | app.api.v1.endpoints.auth:register_user:23 - Intento de registro para: ELKINDARIO2121@gmail.com
+2025-06-06 16:24:29.503 | ERROR    | app.api.v1.endpoints.auth:register_user:32 - Error inesperado durante el registro: 'utf-8' codec can't decode byte 0xab in position 96: invalid start byte
+2025-06-06 16:25:50.700 | INFO     | app.api.v1.endpoints.auth:register_user:23 - Intento de registro para: ELKINDARIO2121@gmail.com
+2025-06-06 16:25:50.820 | ERROR    | app.api.v1.endpoints.auth:register_user:32 - Error inesperado durante el registro: 'utf-8' codec can't decode byte 0xab in position 96: invalid start byte
+2025-06-06 16:28:15.857 | INFO     | app.api.v1.endpoints.auth:register_user:23 - Intento de registro para: ELKINDARIO2121@gmail.com
+2025-06-06 16:28:15.999 | ERROR    | app.api.v1.endpoints.auth:register_user:32 - Error inesperado durante el registro: 'utf-8' codec can't decode byte 0xab in position 96: invalid start byte
+2025-06-06 16:42:04.760 | INFO     | app.api.v1.endpoints.auth:register_user:23 - Intento de registro para: ELKINDARIO2121@gmail.com
+2025-06-06 16:42:04.899 | ERROR    | app.api.v1.endpoints.auth:register_user:32 - Error inesperado durante el registro: 'utf-8' codec can't decode byte 0xab in position 96: invalid start byte
+2025-06-06 16:49:39.523 | INFO     | app.api.v1.endpoints.auth:register_user:23 - Intento de registro para: testuser@example.com
+2025-06-06 16:49:39.659 | ERROR    | app.api.v1.endpoints.auth:register_user:32 - Error inesperado durante el registro: 'utf-8' codec can't decode byte 0xab in position 96: invalid start byte
+2025-06-06 16:59:56.730 | INFO     | app.api.v1.endpoints.auth:register_user:23 - Intento de registro para: testuser@example.com
+2025-06-06 16:59:56.902 | ERROR    | app.api.v1.endpoints.auth:register_user:32 - Error inesperado durante el registro: 'utf-8' codec can't decode byte 0xab in position 96: invalid start byte
+2025-06-06 17:38:57.039 | INFO     | app.api.v1.endpoints.auth:register_user:23 - Intento de registro para: ELKINDARIO2121@gmail.com
+2025-06-06 17:38:57.248 | ERROR    | app.api.v1.endpoints.auth:register_user:32 - Error inesperado durante el registro: 'utf-8' codec can't decode byte 0xab in position 96: invalid start byte
+2025-06-06 17:48:51.847 | INFO     | app.api.v1.endpoints.auth:register_user:26 - Intento de registro para: ELKINDARIO2121@gmail.com
+2025-06-06 17:48:52.156 | ERROR    | app.api.v1.endpoints.auth:register_user:48 - Error inesperado durante el registro: 'utf-8' codec can't decode byte 0xab in position 96: invalid start byte
+2025-06-06 17:52:34.384 | INFO     | app.api.v1.endpoints.auth:register_user:24 - Intento de registro para: elkindario2121@gmail.com
+2025-06-06 17:52:34.387 | INFO     | app.services.auth_service:create_user:51 - Creando usuario con email sanitizado: elkindario2121@gmail.com
+2025-06-06 17:52:34.389 | INFO     | app.services.auth_service:create_user:52 - Datos sanitizados - Email: 'elkindario2121@gmail.com'
+2025-06-06 17:52:34.389 | INFO     | app.services.auth_service:create_user:53 - Datos sanitizados - Nombre: 'Elkin Dario Vega Caceres'
+2025-06-06 17:52:34.606 | ERROR    | app.api.v1.endpoints.auth:register_user:34 - Error inesperado durante el registro: 'utf-8' codec can't decode byte 0xab in position 96: invalid start byte
+2025-06-06 17:52:34.778 | ERROR    | app.api.v1.endpoints.auth:register_user:35 - Traceback completo: Traceback (most recent call last):
+  File "C:\Users\USUARIO\Downloads\intellisales-backend\app\api\v1\endpoints\auth.py", line 27, in register_user
+    user = auth_service.create_user(user_in)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\USUARIO\Downloads\intellisales-backend\app\services\auth_service.py", line 56, in create_user
+    if self.get_user_by_email(clean_email):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\USUARIO\Downloads\intellisales-backend\app\services\auth_service.py", line 43, in get_user_by_email
+    return self.db.query(User).filter(User.email == clean_email).first()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\USUARIO\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sqlalchemy\orm\query.py", line 2748, in first
+    return self.limit(1)._iter().first()  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\USUARIO\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sqlalchemy\orm\query.py", line 2847, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\USUARIO\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sqlalchemy\orm\session.py", line 2308, in execute
+    return self._execute_internal(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\USUARIO\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sqlalchemy\orm\session.py", line 2180, in _execute_internal
+    conn = self._connection_for_bind(bind)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\USUARIO\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sqlalchemy\orm\session.py", line 2047, in _connection_for_bind
+    return trans._connection_for_bind(engine, execution_options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 2, in _connection_for_bind
+  File "C:\Users\USUARIO\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sqlalchemy\orm\state_changes.py", line 139, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\USUARIO\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sqlalchemy\orm\session.py", line 1143, in _connection_for_bind
+    conn = bind.connect()
+           ^^^^^^^^^^^^^^
+  File "C:\Users\USUARIO\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sqlalchemy\engine\base.py", line 3268, in connect
+    return self._connection_cls(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\USUARIO\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sqlalchemy\engine\base.py", line 145, in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\USUARIO\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sqlalchemy\engine\base.py", line 3292, in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\USUARIO\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sqlalchemy\pool\base.py", line 452, in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\USUARIO\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sqlalchemy\pool\base.py", line 1269, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\USUARIO\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sqlalchemy\pool\base.py", line 716, in checkout
+    rec = pool._do_get()
+          ^^^^^^^^^^^^^^
+  File "C:\Users\USUARIO\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sqlalchemy\pool\impl.py", line 169, in _do_get
+    with util.safe_reraise():
+  File "C:\Users\USUARIO\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sqlalchemy\util\langhelpers.py", line 146, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\USUARIO\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sqlalchemy\pool\impl.py", line 167, in _do_get
+    return self._create_connection()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\USUARIO\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sqlalchemy\pool\base.py", line 393, in _create_connection
+    return _ConnectionRecord(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\USUARIO\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sqlalchemy\pool\base.py", line 678, in __init__
+    self.__connect()
+  File "C:\Users\USUARIO\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sqlalchemy\pool\base.py", line 902, in __connect
+    with util.safe_reraise():
+  File "C:\Users\USUARIO\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sqlalchemy\util\langhelpers.py", line 146, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\USUARIO\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sqlalchemy\pool\base.py", line 898, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\USUARIO\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sqlalchemy\engine\create.py", line 637, in connect
+    return dialect.connect(*cargs, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\USUARIO\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sqlalchemy\engine\default.py", line 616, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\USUARIO\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\psycopg2\__init__.py", line 122, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xab in position 96: invalid start byte
+

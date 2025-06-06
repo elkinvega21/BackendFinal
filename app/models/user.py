@@ -3,6 +3,11 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from app.config.database import Base
 
+# --- INICIO DE LA CORRECCIÓN ---
+# Importar el modelo Company para que la relación 'company' pueda encontrarlo
+from app.models.company import Company # <--- ¡Añade esta línea!
+# --- FIN DE LA CORRECCIÓN ---
+
 class User(Base):
     __tablename__ = "users"
 
@@ -18,5 +23,6 @@ class User(Base):
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
 
     # Relationships
+    # La relación 'company' ahora podrá resolver la clase 'Company' porque ha sido importada
     company = relationship("Company", back_populates="users")
     data_sources = relationship("DataSource", back_populates="created_by")

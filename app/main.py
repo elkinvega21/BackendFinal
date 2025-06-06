@@ -1,18 +1,20 @@
+# app/main.py
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from fastapi.responses import JSONResponse
 import time
 import logging
-from loguru import logger
+from loguru import logger # Asegúrate de que loguru esté instalado
 
 from app.config.settings import settings
 from app.api.v1.router import api_router
 from app.core.middleware import SecurityMiddleware
 from app.utils.exceptions import CustomException
 
-# Configure logging
-logger.add("logs/intellisales.log", rotation="1 day", retention="30 days")
+# Configure logging to show INFO messages (and higher) in console
+# Esto sobreescribe la configuración por defecto si la hubiese
+logger.add("logs/intellisales.log", rotation="1 day", retention="30 days", level="INFO") # <-- Nivel INFO para visibilidad
 
 # Create FastAPI app
 app = FastAPI(
@@ -30,7 +32,7 @@ app.add_middleware(SecurityMiddleware)
 # CORS Middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "https://yourdomain.com"],
+    allow_origins=["http://localhost:3000", "https://yourdomain.com"], # Ajusta esto
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -39,7 +41,7 @@ app.add_middleware(
 # Trusted Host Middleware
 app.add_middleware(
     TrustedHostMiddleware,
-    allowed_hosts=["localhost", "127.0.0.1", "yourdomain.com"]
+    allowed_hosts=["localhost", "127.0.0.1", "yourdomain.com"] # Ajusta esto
 )
 
 # Request timing middleware
@@ -74,7 +76,9 @@ async def root():
     return {
         "message": "IntelliSales Colombia API",
         "version": settings.VERSION,
-        "status": "active"
+        "status": "active",
+        "documentation_url": "/api/docs",
+        "health_check_url": "/health"
     }
 
 @app.get("/health")
@@ -90,5 +94,5 @@ if __name__ == "__main__":
         "app.main:app",
         host="0.0.0.0",
         port=8000,
-        reload=settings.DEBUG
+        reload=False # <-- Crucial: DESHABILITADO para evitar conflictos
     )

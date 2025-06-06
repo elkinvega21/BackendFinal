@@ -1,0 +1,68 @@
+version: '3.8'
+
+services:
+  db:
+    # Usar la imagen oficial de PostgreSQL
+    image: postgres:15-alpine
+    # Reiniciar siempre si el contenedor se detiene
+    restart: always
+    # Variables de entorno para la configuración de la base de datos
+    environment:
+      POSTGRES_DB: ${DB_NAME:-intellisales_db}        # Nombre de la base de datos (por defecto 'intellisales_db')
+      POSTGRES_USER: ${DB_USER:-user}                 # Usuario de la base de datos (por defecto 'user')
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-vega123}     # Contraseña de la base de datos (por defecto 'password')
+    # Mapear el puerto 5432 del contenedor al puerto 5432 del host
+    ports:
+      - "5432:5432"
+    # Mapear un volumen para la persistencia de datos de la base de datos
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    # Opcional: Establecer una red si tienes múltiples servicios complejos
+    networks:
+      - backend-network
+
+  web:
+    # Construir la imagen de la aplicación desde el Dockerfile en el directorio actual
+    build: .
+    # Reiniciar siempre si el contenedor se detiene
+    restart: always
+    # Mapear el puerto 8000 del contenedor al puerto 8000 del host
+    ports:
+      - "8000:8000"
+    # Mapear el directorio actual del proyecto al directorio /app dentro del contenedor
+    # Esto permite que los cambios en el código local se reflejen sin reconstruir la imagen.
+    volumes:
+      - .:/app
+    # Cargar variables de entorno desde el archivo .env
+    env_file:
+      - .env
+    # Definir las variables de entorno necesarias para la aplicación FastAPI
+    environment:
+      # Usar los mismos valores que en el servicio 'db' para la URL de la base de datos
+      DATABASE_URL: postgresql://postgres:vega123@localhost:5432/intellisales_db
+      REDIS_URL: redis://redis:6379 # Si tienes un servicio Redis
+      # Asegurarse de que el DEBUG esté en True para ver logs detallados en desarrollo
+      DEBUG: "True"
+    # La aplicación web depende del servicio 'db' para iniciar primero
+    depends_on:
+      - db
+    # Conectar al mismo network que la base de datos
+    networks:
+      - backend-network
+
+  # redis: # Opcional: si necesitas un servicio Redis
+  #   image: redis:7-alpine
+  #   restart: always
+  #   ports:
+  #     - "6379:6379"
+  #   networks:
+  #     - backend-network
+
+# Definir los volúmenes para la persistencia de datos
+volumes:
+  pgdata:
+
+# Definir las redes
+networks:
+  backend-network:
+    driver: bridge
