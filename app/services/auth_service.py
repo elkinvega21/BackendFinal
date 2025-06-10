@@ -113,7 +113,7 @@ class AuthService:
         
         if not user.is_verified:
             raise CustomException(
-                status_code=403, 
+                status_code=403,
                 message="Usuario no verificado. Por favor, revisa tu correo electrónico."
             )
         

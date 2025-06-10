@@ -31,6 +31,3 @@ def setup_logger():
     
     return logger
 
-# Usar esta función en tu main.py
-# from app.config.logger import setup_logger
-# setup_logger()
