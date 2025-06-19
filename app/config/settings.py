@@ -1,87 +1,48 @@
-from pydantic_settings import BaseSettings, SettingsConfigDict
+# app/config/settings.py
+from pydantic_settings import BaseSettings
+from pydantic import ConfigDict
 from typing import Optional
 import os
 
 class Settings(BaseSettings):
-    # App Settings
-    APP_NAME: str = "IntelliSales Colombia"
-    VERSION: str = "0.1.0"
-    DEBUG: bool = False
+    # Configuración para Pydantic v2
+    model_config = ConfigDict(
+        case_sensitive=True,
+        env_file=".env",
+        env_file_encoding="utf-8",
+        extra="allow"  # Permite campos adicionales desde variables de entorno
+    )
     
-    # Security
-    SECRET_KEY: str
+    # JWT Configuration
+    SECRET_KEY: str = os.getenv("SECRET_KEY", "your-super-secret-key-change-this-in-production")
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
     
-    # Database
-    DATABASE_URL: str
+    # Database Configuration
+    DATABASE_URL: str = os.getenv("DATABASE_URL", "sqlite:///./app.db")
     
-    # Redis
-    REDIS_URL: str = "redis://localhost:6379"
+    # Security
+    BCRYPT_ROUNDS: int = 12
     
-    # External APIs
-    GOOGLE_ADS_DEVELOPER_TOKEN: Optional[str] = None
-    GOOGLE_ADS_CLIENT_ID: Optional[str] = None
-    GOOGLE_ADS_CLIENT_SECRET: Optional[str] = None
+    # CORS
+    BACKEND_CORS_ORIGINS: list = ["http://localhost:3000", "http://localhost:8080"]
     
-    PIPEDRIVE_API_TOKEN: Optional[str] = None
-    ZOHO_CLIENT_ID: Optional[str] = None
-    ZOHO_CLIENT_SECRET: Optional[str] = None
+    # Application
+    PROJECT_NAME: str = "Sistema de Autenticación"
+    VERSION: str = "1.0.0"
+    DESCRIPTION: str = "Sistema de autenticación con FastAPI"
     
-    # Email Settings (para notificaciones)
+    # Email Configuration (para futuras implementaciones)
+    SMTP_TLS: bool = True
+    SMTP_PORT: Optional[int] = None
     SMTP_HOST: Optional[str] = None
-    SMTP_PORT: int = 587
     SMTP_USER: Optional[str] = None
     SMTP_PASSWORD: Optional[str] = None
+    EMAILS_FROM_EMAIL: Optional[str] = None
+    EMAILS_FROM_NAME: Optional[str] = None
     
-    # File Upload
-    MAX_FILE_SIZE: int = 50 * 1024 * 1024  # 50MB
-    UPLOAD_FOLDER: str = "uploads"
-    
-    # AI/ML Settings
-    MODEL_STORAGE_PATH: str = "models"
-    TRAINING_DATA_RETENTION_DAYS: int = 90
-    
-    # Configuración para Pydantic v2
-    model_config = SettingsConfigDict(
-        env_file=".env",
-        env_file_encoding="utf-8",
-        case_sensitive=False,  # Cambiado a False para mayor flexibilidad
-        extra="ignore",
-        validate_default=True
-    )
+    # Environment
+    ENVIRONMENT: str = os.getenv("ENVIRONMENT", "development")
+    DEBUG: bool = os.getenv("DEBUG", "True").lower() == "true"
 
-# Crear la instancia de configuración
-try:
-    settings = Settings()
-    print(f"✓ Settings loaded successfully for {settings.APP_NAME}")
-except Exception as e:
-    print(f"✗ Error loading settings: {e}")
-    # Fallback settings for development
-    print("Using fallback settings...")
-    
-    class FallbackSettings:
-        APP_NAME = "IntelliSales Colombia"
-        VERSION = "0.1.0"
-        DEBUG = True
-        SECRET_KEY = "fallback-secret-key-for-development-only"
-        ALGORITHM = "HS256"
-        ACCESS_TOKEN_EXPIRE_MINUTES = 30
-        DATABASE_URL = "sqlite:///./intellisales.db"
-        REDIS_URL = "redis://localhost:6379"
-        GOOGLE_ADS_DEVELOPER_TOKEN = None
-        GOOGLE_ADS_CLIENT_ID = None
-        GOOGLE_ADS_CLIENT_SECRET = None
-        PIPEDRIVE_API_TOKEN = None
-        ZOHO_CLIENT_ID = None
-        ZOHO_CLIENT_SECRET = None
-        SMTP_HOST = None
-        SMTP_PORT = 587
-        SMTP_USER = None
-        SMTP_PASSWORD = None
-        MAX_FILE_SIZE = 50 * 1024 * 1024
-        UPLOAD_FOLDER = "uploads"
-        MODEL_STORAGE_PATH = "models"
-        TRAINING_DATA_RETENTION_DAYS = 90
-    
-    settings = FallbackSettings()
+settings = Settings()
